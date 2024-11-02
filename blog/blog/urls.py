@@ -19,3 +19,6 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [path("admin/", admin.site.urls), path("", include("posts.urls"))]
+
+admin.site.site_header = "Blog"
+admin.site.index_title = "Blog Manager"
