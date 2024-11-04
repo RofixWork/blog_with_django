@@ -1,0 +1,11 @@
+<nav class='d-flex justify-content-center align-items-center gap-3 mt-5'>
+    {% if posts.has_previous %}
+        <a class='btn btn-primary-outline' href="?p={{posts.previous_page_number}}">Previous</a>
+        <a class='btn btn-primary-outline' href="?p={{posts.previous_page_number}}">{{posts.previous_page_number}}</a>
+    {% endif %}
+    <a class='btn btn-primary' href="?p={{posts.number}}">{{posts.number}}</a>
+    {% if posts.has_next %}
+    <a class='btn btn-primary-outline' href="?p={{posts.next_page_number}}">{{posts.next_page_number}}</a>
+    <a class='btn btn-primary-outline' href="?p={{posts.next_page_number}}">Next</a>
+    {% endif %}
+</nav>
