@@ -2,7 +2,7 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .forms import RegsiterForm
+from .forms import LoginForm, RegsiterForm
 
 
 # Create your views here.
@@ -18,4 +18,5 @@ def register(request: HttpRequest) -> HttpResponse:
 
 
 def login(request: HttpRequest) -> HttpResponse:
-    return render(request, "accounts/login.html")
+    form = LoginForm()
+    return render(request, "accounts/login.html", {"form": form})
