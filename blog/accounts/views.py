@@ -1,3 +1,5 @@
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -18,5 +20,15 @@ def register(request: HttpRequest) -> HttpResponse:
 
 
 def login(request: HttpRequest) -> HttpResponse:
-    form = LoginForm()
+    if request.method == "POST":
+        form = LoginForm(request=request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                auth_login(request, user)
+                return HttpResponseRedirect(reverse("posts.home"))
+    else:
+        form = LoginForm()
     return render(request, "accounts/login.html", {"form": form})
