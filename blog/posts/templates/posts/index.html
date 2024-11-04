@@ -25,5 +25,8 @@
             {% endfor %}
         </tbody>
     </table>
+    {% if count > 4 %}
+        {% include "posts/includes/posts-pagination.html" %}
+    {% endif %}
 </div>
 {% endblock body %}

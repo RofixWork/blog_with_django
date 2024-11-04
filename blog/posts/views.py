@@ -13,9 +13,11 @@ def home(request: HttpRequest) -> HttpResponse:
 
 
 def index(request: HttpRequest) -> HttpResponse:
+    page_number = request.GET.get("p", 1)
     current_user_posts = Post.objects.filter(user=request.user)
-    posts = Paginator(current_user_posts.order_by("-updated_at"), 2).get_page(2)
-    print(posts)
+    posts = Paginator(current_user_posts.order_by("-updated_at"), 4).get_page(
+        page_number
+    )
     return render(
         request,
         "posts/index.html",
