@@ -18,7 +18,9 @@
                 <tr>
                     <th scope="row">{{post.title|title}}</th>
                     <td>{{post.updated_at|date}}</td>
-                    <td>2</td>
+                    <td>
+                        <a class='btn btn-primary btn-sm' href="{% url "posts.update" id=post.id %}">UPDATE</a>
+                    </td>
                 </tr>
                 {% empty %}
                 <th colspan="3" scope='row'>Don't have any posts</th>

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container mt-3 mb-3">
+    <h2 class='mb-3'>Update Post</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="mb-3">
+            <label for="{{field.id_for_label}}" class="form-label">{{field.label}}</label>
+            {{field}}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <div class="text-danger">{{error}}</div>
+                {% endfor %}
+            {% endif %}
+            {% comment %} show post image {% endcomment %}
+            {% if field.name == 'image' %}
+                <div class="mt-2">
+                    <img src="{{post_image.url}}" width='300px' height='150px' id="post_image-box">
+                </div>
+            {% endif %}
+            {% comment %} show post image {% endcomment %}
+            {% if field.help_text %}
+                <div class="form-text">Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Update Post</button>
+        <a href='{% url "posts.index" %}' class="btn btn-dark">Back</a>
+    </form>
+</div>
+<script>
+    file = document.querySelector('.post_image');
+    file.addEventListener('change', e => {
+        image = e.target.files[0]
+        if (image) {
+            type = image.type.split('/')[1]
+
+            if (!['jpg', 'png', 'webp', 'jpeg'].includes(type)) {
+                alert(`not support this type: ${type}`)
+                return
+            }
+
+            post_image_box = document.getElementById('post_image-box')
+
+            url = URL.createObjectURL(image)
+            post_image_box.setAttribute('src', url)
+
+        }
+        
+    })
+</script>
+{% endblock body %}

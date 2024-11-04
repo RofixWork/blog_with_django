@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
 from .forms import PostForm
@@ -37,3 +37,17 @@ def create(request: HttpRequest) -> HttpResponse:
     else:
         form = PostForm()
     return render(request, "posts/create.html", {"form": form})
+
+
+def update(request: HttpRequest, id: int) -> HttpResponse:
+    post: Post = get_object_or_404(Post, id=id)
+    if request.method == "POST":
+        form = PostForm(data=request.POST, files=request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("posts.index"))
+    else:
+        form = PostForm(instance=post)
+    return render(
+        request, "posts/update.html", {"form": form, "post_image": post.image}
+    )
