@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -32,3 +33,10 @@ def login(request: HttpRequest) -> HttpResponse:
     else:
         form = LoginForm()
     return render(request, "accounts/login.html", {"form": form})
+
+
+def logout(request: HttpRequest) -> HttpResponse:
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            auth_logout(request)
+            return HttpResponseRedirect(reverse("auth.login"))
