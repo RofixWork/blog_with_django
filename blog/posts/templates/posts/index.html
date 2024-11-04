@@ -18,8 +18,11 @@
                 <tr>
                     <th scope="row">{{post.title|title}}</th>
                     <td>{{post.updated_at|date}}</td>
-                    <td>
+                    <td class='d-flex align-items-center gap-2'>
                         <a class='btn btn-primary btn-sm' href="{% url "posts.update" id=post.id %}">UPDATE</a>
+                        <form action="" method="post">
+                            <button type='submit' class='btn btn-danger btn-sm'>DELETE</button>
+                        </form>
                     </td>
                 </tr>
                 {% empty %}
