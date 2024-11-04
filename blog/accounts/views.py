@@ -10,6 +10,9 @@ from .forms import LoginForm, RegsiterForm
 
 # Create your views here.
 def register(request: HttpRequest) -> HttpResponse:
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("posts.home"))
+
     if request.method == "POST":
         form = RegsiterForm(request.POST)
         if form.is_valid():
@@ -21,6 +24,9 @@ def register(request: HttpRequest) -> HttpResponse:
 
 
 def login(request: HttpRequest) -> HttpResponse:
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("posts.home"))
+
     if request.method == "POST":
         form = LoginForm(request=request, data=request.POST)
         if form.is_valid():

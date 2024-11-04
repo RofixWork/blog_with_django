@@ -13,6 +13,9 @@ def home(request: HttpRequest) -> HttpResponse:
 
 
 def index(request: HttpRequest) -> HttpResponse:
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("auth.login"))
+
     page_number = request.GET.get("p", 1)
     current_user_posts = Post.objects.filter(user=request.user)
     posts = Paginator(current_user_posts.order_by("-updated_at"), 4).get_page(
@@ -26,6 +29,9 @@ def index(request: HttpRequest) -> HttpResponse:
 
 
 def create(request: HttpRequest) -> HttpResponse:
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("auth.login"))
+
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -40,6 +46,9 @@ def create(request: HttpRequest) -> HttpResponse:
 
 
 def update(request: HttpRequest, id: int) -> HttpResponse:
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("auth.login"))
+
     post: Post = get_object_or_404(Post, id=id)
     if request.method == "POST":
         form = PostForm(data=request.POST, files=request.FILES, instance=post)
