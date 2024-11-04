@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block body %}
 <div class="container mt-3 mb-3">
-    <h2 class='mb-3'>Create Post</h2>
-    <form method="POST" enctype="multipart/form-data">
+    <h2 class='mb-3'>Register</h2>
+    <form method="POST">
         {% csrf_token %}
         {% for field in form %}
         <div class="mb-3">
@@ -18,8 +18,7 @@
             {% endif %}
         </div>
         {% endfor %}
-        <button type="submit" class="btn btn-primary">Create Post</button>
-        <a href='{% url "posts.index" %}' class="btn btn-dark">Back</a>
+        <button type="submit" class="btn btn-primary">Register</button>
     </form>
 </div>
 {% endblock body %}
