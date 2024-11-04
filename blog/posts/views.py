@@ -7,6 +7,10 @@ from .models import Post
 
 
 # Create your views here.
+def home(request: HttpRequest) -> HttpResponse:
+    return render(request, "posts/home.html")
+
+
 def index(request: HttpRequest) -> HttpResponse:
     return render(request, "posts/index.html")
 

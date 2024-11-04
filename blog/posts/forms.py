@@ -8,6 +8,7 @@ class PostForm(forms.ModelForm):
         queryset=Tag.objects.all(),
         required=False,
         widget=forms.SelectMultiple(attrs={"class": "form-control"}),
+        help_text="Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.",
     )
 
     class Meta:
@@ -21,6 +22,4 @@ class PostForm(forms.ModelForm):
                 attrs={"class": "form-control", "accept": "image/*"}
             ),
         }
-        help_texts = {
-            "tags": "Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options."
-        }
+        help_texts = {}
