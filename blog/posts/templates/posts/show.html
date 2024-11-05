@@ -42,33 +42,32 @@
             <h3>Comments</h3>
 
             <!-- Existing Comments -->
-            <div class="mb-4">
-                <div class="card p-3 mb-2">
-                    <p><strong>Commenter Name</strong> <span class="text-muted">on Comment Date</span></p>
-                    <p>This is a comment on the post. It includes feedback, questions, or thoughts about the content...</p>
-                </div>
-                <div class="card p-3 mb-2">
-                    <p><strong>Another User</strong> <span class="text-muted">on Comment Date</span></p>
-                    <p>This is another comment. Users can interact by sharing their opinions...</p>
-                </div>
+            <div class="mb-4" style="max-height: 400px; overflow-y: auto;">
+                {% for comment in comments %}
+                    {% include "posts/includes/comment-card.html" with comment=comment %}
+                    {% empty %}
+                {% endfor %}
                 <!-- Add more comments as needed -->
             </div>
 
             <!-- Comment Form -->
             <div class="card p-4 shadow-sm">
                 <h5>Leave a Comment</h5>
-                <form action="path/to/submit/comment" method="POST">
-                    <div class="mb-3">
-                        <label for="commentName" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="commentName" placeholder="Your Name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="commentContent" class="form-label">Comment</label>
-                        <textarea class="form-control" id="commentContent" rows="3" placeholder="Write your comment here..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit Comment</button>
-                </form>
-            </div>
+                {% if user.is_authenticated %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label for="{{field.id_for_label}}" class="form-label">{{field.label}}</label>
+                                {{field}}
+                            </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary">Submit Comment</button>
+                    </form>
+                {% else %}
+                    <a href="{% url "auth.login" %}" class='btn btn-primary'>Login to Comment</a>
+                </div>
+             {% endif %}
         </div>
     </div>
 </div>

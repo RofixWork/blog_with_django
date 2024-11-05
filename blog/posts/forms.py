@@ -17,7 +17,7 @@ class PostForm(forms.ModelForm):
         exclude = ["created_at", "updated_at", "user"]
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control"}),
-            "description": forms.Textarea(attrs={"class": "form-control", "rows": 3}),
+            "description": forms.Textarea(attrs={"class": "form-control", "rows": 6}),
             "image": forms.FileInput(
                 attrs={"class": "form-control post_image", "accept": "image/*"}
             ),
@@ -29,3 +29,6 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ["comment"]
+        widgets = {
+            "comment": forms.Textarea(attrs={"class": "form-control", "rows": "3"})
+        }

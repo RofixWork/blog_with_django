@@ -3,8 +3,8 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-from .forms import PostForm
-from .models import Post
+from .forms import CommentForm, PostForm
+from .models import Comment, Post
 
 
 # Create your views here.
@@ -79,5 +79,23 @@ def delete(request: HttpRequest, id: int) -> HttpResponse:
 
 def show(request: HttpRequest, id: int) -> HttpResponse:
     post = get_object_or_404(Post, id=id)
-    print(post.tags.all())
-    return render(request, "posts/show.html", {"post": post})
+    # save comment
+    if request.method == "POST" and request.user.is_authenticated:
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment: Comment = form.save(commit=False)
+            comment.post = post
+            comment.user = request.user
+            comment.save()
+            return HttpResponseRedirect(reverse("posts.show", kwargs={"id": post.id}))
+    else:
+        form = CommentForm()
+    return render(
+        request,
+        "posts/show.html",
+        {
+            "post": post,
+            "form": form,
+            "comments": post.comment_set.all().order_by("-id"),
+        },
+    )
