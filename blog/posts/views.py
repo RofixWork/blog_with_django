@@ -60,3 +60,13 @@ def update(request: HttpRequest, id: int) -> HttpResponse:
     return render(
         request, "posts/update.html", {"form": form, "post_image": post.image}
     )
+
+
+def delete(request: HttpRequest, id: int) -> HttpResponse:
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("auth.login"))
+
+    post = get_object_or_404(Post, id=id)
+    if request.method == "POST":
+        post.delete()
+        return HttpResponseRedirect(reverse("posts.index"))

@@ -16,13 +16,12 @@
         <tbody>
             {% for post in posts %}
                 <tr>
+                    {% include "posts/includes/post_confirm_delete_modal.html" with id=post.id %}
                     <th scope="row">{{post.title|title}}</th>
                     <td>{{post.updated_at|date}}</td>
                     <td class='d-flex align-items-center gap-2'>
                         <a class='btn btn-primary btn-sm' href="{% url "posts.update" id=post.id %}">UPDATE</a>
-                        <form action="" method="post">
-                            <button type='submit' class='btn btn-danger btn-sm'>DELETE</button>
-                        </form>
+                        <button type='button' data-bs-toggle="modal" data-bs-target="#exampleModal-{{post.id}}" class='btn btn-danger btn-sm'>DELETE</button>
                     </td>
                 </tr>
                 {% empty %}
