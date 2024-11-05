@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block body %}
+{% load static %}
+{% comment %} user card {% endcomment %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <!-- Avatar -->
+                    <div class="profile-avatar mb-3">
+                        <img src="{% static "avatar.png" %}" alt="User Avatar" class="rounded-circle" width="150" height="150">
+                    </div>
+
+                    <!-- Username -->
+                    <h3 class="card-title mb-2">{{user|title}}</h3>
+
+                    <!-- Number of Posts -->
+                    <p class="text-muted mb-4">Total Posts: <strong>{{count|default:"0"}}</strong></p>
+
+                    <!-- Create New Post Button -->
+                    <a href="{% url "posts.create" %}" class="btn btn-primary">Create New Post</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% comment %} user card {% endcomment %}
+{% comment %} user posts {% endcomment %}
+
+    <div class="container mt-5 mb-3">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <!-- Start of Post Card -->
+             {% for post in posts %}
+                {% include "posts/includes/post-card.html" %}
+                {% empty %}
+                <h3>Don't have any Posts...</h3>
+             {% endfor %}
+        </div>
+        {% if count > 10 %}
+            {% include "posts/includes/posts-pagination.html" %}
+        {% endif %}
+    </div>
+    
+</div>
+{% endblock body %}

@@ -54,7 +54,7 @@ def update(request: HttpRequest, id: int) -> HttpResponse:
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("auth.login"))
 
-    post: Post = get_object_or_404(Post, id=id)
+    post: Post = get_object_or_404(Post, id=id, user=request.user)
     if request.method == "POST":
         form = PostForm(data=request.POST, files=request.FILES, instance=post)
         if form.is_valid():
@@ -71,14 +71,14 @@ def delete(request: HttpRequest, id: int) -> HttpResponse:
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("auth.login"))
 
-    post = get_object_or_404(Post, id=id)
+    post = get_object_or_404(Post, id=id, user=request.user)
     if request.method == "POST":
         post.delete()
         return HttpResponseRedirect(reverse("posts.index"))
 
 
 def show(request: HttpRequest, id: int) -> HttpResponse:
-    post = get_object_or_404(Post, id=id)
+    post = get_object_or_404(Post, id=id, user=request.user)
     # save comment
     if request.method == "POST" and request.user.is_authenticated:
         form = CommentForm(request.POST)
@@ -98,4 +98,20 @@ def show(request: HttpRequest, id: int) -> HttpResponse:
             "form": form,
             "comments": post.comment_set.all().order_by("-id"),
         },
+    )
+
+
+def profile(request: HttpRequest) -> HttpResponse:
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("auth.login"))
+
+    page_number = request.GET.get("p", 1)
+    current_user_posts = Post.objects.filter(user=request.user)
+    posts = Paginator(current_user_posts.order_by("-updated_at"), 4).get_page(
+        page_number
+    )
+    return render(
+        request,
+        "posts/profile.html",
+        {"posts": posts, "count": current_user_posts.count()},
     )
