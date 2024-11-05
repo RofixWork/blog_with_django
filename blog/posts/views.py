@@ -78,7 +78,7 @@ def delete(request: HttpRequest, id: int) -> HttpResponse:
 
 
 def show(request: HttpRequest, id: int) -> HttpResponse:
-    post = get_object_or_404(Post, id=id, user=request.user)
+    post = get_object_or_404(Post, id=id)
     # save comment
     if request.method == "POST" and request.user.is_authenticated:
         form = CommentForm(request.POST)
