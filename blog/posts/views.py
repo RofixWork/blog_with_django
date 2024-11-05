@@ -115,3 +115,11 @@ def profile(request: HttpRequest) -> HttpResponse:
         "posts/profile.html",
         {"posts": posts, "count": current_user_posts.count()},
     )
+
+
+def remove_comment(request: HttpRequest, id: int) -> HttpResponse:
+    if request.method == "POST" and request.user.is_authenticated:
+        comment: Comment = get_object_or_404(Comment, id=id, user=request.user)
+        post_id = comment.post.id
+        comment.delete()
+        return HttpResponseRedirect(reverse("posts.show", kwargs={"id": post_id}))

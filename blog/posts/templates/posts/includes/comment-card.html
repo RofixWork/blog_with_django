@@ -1,4 +1,14 @@
 <div class="card p-3 mb-2">
     <p><strong>{{comment.user}}</strong> <span class="text-muted">on {{comment.created_at}}</span></p>
     <p>{{comment.comment}}</p>
+    {% if user.is_authenticated and comment.user == user %}
+        <div class="d-flex justify-content-end">
+            <form action="{% url "comments.remove" id=comment.id %}" method='post'>
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash3-fill"></i>
+                </button>
+            </form>
+        </div>
+    {% endif %}
 </div>
