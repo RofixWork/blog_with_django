@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block body %}
 <div class="container my-5">
+    <div class="d-flex justify-content-start mb-4">
+        <a href="{% url "posts.home" %}" class="btn btn-light btn-lg" role="button" title="Back to Homepage">
+            <i class="bi bi-arrow-90deg-left"></i>
+            <span class="ms-2">Back</span>
+        </a>
+    </div>
     <!-- Post Details Section -->
     <div class="row">
         <div class="col-lg-8 mx-auto">

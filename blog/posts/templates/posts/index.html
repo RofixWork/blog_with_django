@@ -20,7 +20,10 @@
                     <th scope="row">{{post.title|title}}</th>
                     <td>{{post.updated_at|date}}</td>
                     <td class='d-flex align-items-center gap-2'>
-                        <a class='btn btn-primary btn-sm' href="{% url "posts.update" id=post.id %}">
+                        <a class='btn btn-primary btn-sm' href="{% url "posts.show" id=post.id %}">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a class='btn btn-secondary btn-sm' href="{% url "posts.update" id=post.id %}">
                             <i class="bi bi-pencil-square"></i>
                         </a>
                         <button type='button' data-bs-toggle="modal" data-bs-target="#exampleModal-{{post.id}}" class='btn btn-danger btn-sm'>
