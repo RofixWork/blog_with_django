@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container my-5">
+    <!-- Post Details Section -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-sm">
+                <!-- Post Image -->
+                <img src="{{post.image.url}}" class="card-img-top" alt="{{post.title}}">
+
+                <div class="card-body">
+                    <!-- Post Title -->
+                    <h2 class="card-title">{{post.title|title}}</h2>
+
+                    <!-- Post Tags -->
+                    <div class="mb-2">
+                        {% for tag in post.tags.all %}
+                            <span class="badge bg-primary">{{tag|title}}</span>
+                        {% endfor %}
+                        <!-- Add as many tags as needed -->
+                    </div>
+
+                    <!-- Post Metadata -->
+                    <p class="text-muted">By <strong>{{post.user}}</strong> | Published on <strong>{{post.created_at}}</strong></p>
+
+                    <!-- Post Description -->
+                    <p class="card-text">{{post.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto">
+            <h3>Comments</h3>
+
+            <!-- Existing Comments -->
+            <div class="mb-4">
+                <div class="card p-3 mb-2">
+                    <p><strong>Commenter Name</strong> <span class="text-muted">on Comment Date</span></p>
+                    <p>This is a comment on the post. It includes feedback, questions, or thoughts about the content...</p>
+                </div>
+                <div class="card p-3 mb-2">
+                    <p><strong>Another User</strong> <span class="text-muted">on Comment Date</span></p>
+                    <p>This is another comment. Users can interact by sharing their opinions...</p>
+                </div>
+                <!-- Add more comments as needed -->
+            </div>
+
+            <!-- Comment Form -->
+            <div class="card p-4 shadow-sm">
+                <h5>Leave a Comment</h5>
+                <form action="path/to/submit/comment" method="POST">
+                    <div class="mb-3">
+                        <label for="commentName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="commentName" placeholder="Your Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="commentContent" class="form-label">Comment</label>
+                        <textarea class="form-control" id="commentContent" rows="3" placeholder="Write your comment here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Comment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+

@@ -18,10 +18,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "posts.home" %}">Home</a>
+                    </li>
                     {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url "posts.home" %}">Home</a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url "posts.index" %}">Dashboard</a>
                         </li>

@@ -11,10 +11,10 @@ from .models import Post
 def home(request: HttpRequest) -> HttpResponse:
     page_number = request.GET.get("p", 1)
     posts = Post.objects.all().order_by("-created_at")
-    paginate_posts = Paginator(posts, 10).get_page(
-        page_number
+    paginate_posts = Paginator(posts, 10).get_page(page_number)
+    return render(
+        request, "posts/home.html", {"posts": paginate_posts, "count": posts.count()}
     )
-    return render(request, "posts/home.html", {"posts": paginate_posts, 'count': posts.count()})
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -75,3 +75,9 @@ def delete(request: HttpRequest, id: int) -> HttpResponse:
     if request.method == "POST":
         post.delete()
         return HttpResponseRedirect(reverse("posts.index"))
+
+
+def show(request: HttpRequest, id: int) -> HttpResponse:
+    post = get_object_or_404(Post, id=id)
+    print(post.tags.all())
+    return render(request, "posts/show.html", {"post": post})
