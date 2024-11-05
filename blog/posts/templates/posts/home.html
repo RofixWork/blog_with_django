@@ -1,4 +1,37 @@
 {% extends "base.html" %}
 {% block body %}
-Home Page
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="section-title mb-4 pb-2">
+                <h4 class="title mb-4">Latest Blog &amp; News</h4>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+
+    <div class="container my-3">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <!-- Start of Post Card -->
+             {% for post in posts %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="{{post.image.url}}" class="card-img-top" alt="Post Title">
+                        <div class="card-body">
+                            <h5 class="card-title">{{post.title|title}}</h5>
+                            <p class="text-muted">{{post.created_at}}</p>
+                            <p class="card-text">{{post.description|truncatewords:15}}</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="post-detail-page.html" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+             {% endfor %}
+        </div>
+        {% if count > 10 %}
+            {% include "posts/includes/posts-pagination.html" %}
+        {% endif %}
+    </div>
+    
+</div>
 {% endblock body %}

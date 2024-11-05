@@ -9,7 +9,12 @@ from .models import Post
 
 # Create your views here.
 def home(request: HttpRequest) -> HttpResponse:
-    return render(request, "posts/home.html")
+    page_number = request.GET.get("p", 1)
+    posts = Post.objects.all().order_by("-created_at")
+    paginate_posts = Paginator(posts, 10).get_page(
+        page_number
+    )
+    return render(request, "posts/home.html", {"posts": paginate_posts, 'count': posts.count()})
 
 
 def index(request: HttpRequest) -> HttpResponse:
