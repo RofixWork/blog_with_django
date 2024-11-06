@@ -31,6 +31,7 @@
 
                     <!-- Post Description -->
                     <p class="card-text">{{post.description}}</p>
+                    <a href='#comments' class='text-primary'>{{comments_count}} Comments</a>
                 </div>
             </div>
         </div>
@@ -42,7 +43,7 @@
             <h3>Comments</h3>
 
             <!-- Existing Comments -->
-            <div class="mb-4" style="max-height: 400px; overflow-y: auto;">
+            <div id='comments' class="mb-4" style="max-height: 400px; overflow-y: auto;">
                 {% for comment in comments %}
                     {% include "posts/includes/comment-card.html" with comment=comment %}
                     {% empty %}

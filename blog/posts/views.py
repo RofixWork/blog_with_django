@@ -110,6 +110,7 @@ def show(request: HttpRequest, id: int) -> HttpResponse:
             "post": post,
             "form": form,
             "comments": post.comment_set.all().order_by("-id"),
+            "comments_count": post.comment_set.count(),
         },
     )
 
