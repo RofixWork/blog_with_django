@@ -13,7 +13,7 @@
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <!-- Start of Post Card -->
              {% for post in posts %}
-                {% include "posts/includes/post-card.html" %}
+                {% include "posts/includes/post-card.html" with footer=True %}
              {% endfor %}
         </div>
         {% if count > 10 %}

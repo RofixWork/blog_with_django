@@ -6,8 +6,10 @@
             <p class="text-muted">{{post.created_at}}</p>
             <p class="card-text">{{post.description|truncatewords:15}}</p>
         </div>
-        <div class="card-footer text-center">
-            <a href="{% url "posts.show" id=post.id %}" class="btn btn-primary">Read More</a>
-        </div>
+        {% if footer %}
+            <div class="card-footer text-center">
+                <a href="{% url "posts.show" id=post.id %}" class="btn btn-primary">Read More</a>
+            </div>
+        {% endif %}
     </div>
 </div>

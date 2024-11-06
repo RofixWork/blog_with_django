@@ -38,7 +38,7 @@
              {% endfor %}
         </div>
         {% if count > 10 %}
-            {% include "posts/includes/posts-pagination.html" %}
+            {% include "posts/includes/posts-pagination.html" with footer=False %}
         {% endif %}
     </div>
     
