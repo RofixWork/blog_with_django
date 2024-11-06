@@ -26,10 +26,15 @@ def index(request: HttpRequest) -> HttpResponse:
     posts = Paginator(current_user_posts.order_by("-updated_at"), 4).get_page(
         page_number
     )
+    message_success = request.COOKIES.get("success_message", None)
     return render(
         request,
         "posts/index.html",
-        {"posts": posts, "count": current_user_posts.count()},
+        {
+            "posts": posts,
+            "count": current_user_posts.count(),
+            "success_message": message_success,
+        },
     )
 
 
@@ -47,7 +52,9 @@ def create(request: HttpRequest) -> HttpResponse:
             return HttpResponseRedirect(reverse("posts.index"))
     else:
         form = PostForm()
-    return render(request, "posts/create.html", {"form": form})
+    response = render(request, "posts/create.html", {"form": form})
+    response.set_cookie("success_message", "Post has been added successfully...", 5)
+    return response
 
 
 def update(request: HttpRequest, id: int) -> HttpResponse:
@@ -62,9 +69,11 @@ def update(request: HttpRequest, id: int) -> HttpResponse:
             return HttpResponseRedirect(reverse("posts.index"))
     else:
         form = PostForm(instance=post)
-    return render(
+    response = render(
         request, "posts/update.html", {"form": form, "post_image": post.image}
     )
+    response.set_cookie("success_message", "Post has been updated successfully...", 5)
+    return response
 
 
 def delete(request: HttpRequest, id: int) -> HttpResponse:
@@ -74,7 +83,11 @@ def delete(request: HttpRequest, id: int) -> HttpResponse:
     post = get_object_or_404(Post, id=id, user=request.user)
     if request.method == "POST":
         post.delete()
-        return HttpResponseRedirect(reverse("posts.index"))
+        response = HttpResponseRedirect(reverse("posts.index"))
+        response.set_cookie(
+            "success_message", "Post has been removed successfully...", 5
+        )
+        return response
 
 
 def show(request: HttpRequest, id: int) -> HttpResponse:
