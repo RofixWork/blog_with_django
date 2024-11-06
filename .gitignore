@@ -1,2 +1,2 @@
 blog_venv
-blog/db.sqlite3
+blog/*.sqlite3
